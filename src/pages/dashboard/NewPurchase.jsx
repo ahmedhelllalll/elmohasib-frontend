@@ -17,7 +17,7 @@ const NewPurchase = () => {
     const { settings } = useContext(SettingsContext);
 
     const [selectedSupplierId, setSelectedSupplierId] = useState('');
-    const [referenceNumber, setReferenceNumber] = useState('');
+    const [referenceNumber, setReferenceNumber] = useState(`REF-${Math.floor(100000 + Math.random() * 900000)}`);
     const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().split('T')[0]);
     const [searchTerm, setSearchTerm] = useState('');
     const [cart, setCart] = useState([]);
