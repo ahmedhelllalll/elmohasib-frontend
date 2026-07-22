@@ -16,7 +16,6 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import VerifyEmail from './pages/VerifyEmail';
 import Onboarding from './pages/Onboarding';
-import InstallPWA from './components/InstallPWA';
 import DashboardLayout from './components/layout/DashboardLayout';
 import Overview from './pages/dashboard/Overview';
 import Inventory from './pages/dashboard/Inventory';
@@ -63,7 +62,6 @@ function App() {
   }, []);
 
   return (
-    <InstallPWA>
       <AuthProvider>
         <SettingsProvider>
         <InventoryProvider>
@@ -107,7 +105,6 @@ function App() {
         </InventoryProvider>
         </SettingsProvider>
       </AuthProvider>
-    </InstallPWA>
   );
 }
 

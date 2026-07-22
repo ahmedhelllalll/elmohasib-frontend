@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 import axios from 'axios';
 import { toast } from 'sonner';
 import db from '../db';
@@ -6,6 +7,7 @@ import db from '../db';
 export const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
+    const { token } = useContext(AuthContext);
     const [settings, setSettings] = useState({
         tax_rate: '15',
         business_name: 'المُحاسِب.',
@@ -41,10 +43,10 @@ export const SettingsProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        if (axios.defaults.headers.common['Authorization']) {
+        if (token) {
             fetchSettings();
         }
-    }, []);
+    }, [token]);
 
     const updateSettings = async (newSettings) => {
         setIsLoading(true);

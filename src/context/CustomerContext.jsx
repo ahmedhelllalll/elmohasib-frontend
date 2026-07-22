@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 import axios from 'axios';
 import { toast } from 'sonner';
 import db from '../db';
@@ -6,6 +7,7 @@ import db from '../db';
 export const CustomerContext = createContext();
 
 export const CustomerProvider = ({ children }) => {
+    const { token } = useContext(AuthContext);
     const [customers, setCustomers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -34,10 +36,10 @@ export const CustomerProvider = ({ children }) => {
 
     useEffect(() => {
         // Automatically fetch customers when context mounts
-        if (axios.defaults.headers.common['Authorization']) {
+        if (token) {
             fetchCustomers();
         }
-    }, []);
+    }, [token]);
 
     const addCustomer = async (data) => {
         try {

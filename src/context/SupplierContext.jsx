@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 import axios from 'axios';
 import { toast } from 'sonner';
 import db from '../db';
@@ -6,6 +7,7 @@ import db from '../db';
 export const SupplierContext = createContext();
 
 export const SupplierProvider = ({ children }) => {
+    const { token } = useContext(AuthContext);
     const [suppliers, setSuppliers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
@@ -51,10 +53,10 @@ export const SupplierProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        if (axios.defaults.headers.common['Authorization']) {
+        if (token) {
             fetchSuppliers();
         }
-    }, [isOffline]);
+    }, [token, isOffline]);
 
     const addSupplier = async (supplierData) => {
         if (isOffline) {

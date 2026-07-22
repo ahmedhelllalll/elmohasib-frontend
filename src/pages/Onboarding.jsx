@@ -36,15 +36,19 @@ const Onboarding = () => {
             { opacity: 0 },
             { opacity: 1, duration: 0.8, ease: "power2.out" }
         );
-        animateEnter();
     }, []);
 
     const animateEnter = () => {
+        if (!contentRef.current) return;
         gsap.fromTo(contentRef.current.children,
             { opacity: 0, y: 15 },
             { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" }
         );
     };
+
+    useEffect(() => {
+        animateEnter();
+    }, [currentSlide]);
 
     const nextSlide = () => {
         if (currentSlide === slides.length - 1) {
@@ -60,7 +64,6 @@ const Onboarding = () => {
             ease: "power2.inOut",
             onComplete: () => {
                 setCurrentSlide(prev => prev + 1);
-                animateEnter();
             }
         });
     };
@@ -72,7 +75,7 @@ const Onboarding = () => {
             duration: 0.5,
             ease: "power2.inOut",
             onComplete: () => {
-                navigate('/dashboard');
+                navigate('/signup');
             }
         });
     };
@@ -80,7 +83,7 @@ const Onboarding = () => {
     const SlideIcon = slides[currentSlide].icon;
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-white flex flex-col font-sans selection:bg-emerald-100">
+        <div ref={containerRef} className="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-emerald-100">
             
             {/* Header / Skip */}
             <header className="p-6 flex justify-end">

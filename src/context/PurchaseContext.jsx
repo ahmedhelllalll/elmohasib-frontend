@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 import axios from 'axios';
 import { toast } from 'sonner';
 import db from '../db';
@@ -6,6 +7,7 @@ import db from '../db';
 export const PurchaseContext = createContext();
 
 export const PurchaseProvider = ({ children }) => {
+    const { token } = useContext(AuthContext);
     const [purchases, setPurchases] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
@@ -48,10 +50,10 @@ export const PurchaseProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        if (axios.defaults.headers.common['Authorization']) {
+        if (token) {
             fetchPurchases();
         }
-    }, [isOffline]);
+    }, [token, isOffline]);
 
     const submitPurchase = async (purchaseData) => {
         if (isOffline) {

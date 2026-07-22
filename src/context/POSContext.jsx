@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { InventoryContext } from './InventoryContext';
@@ -8,6 +9,7 @@ import db from '../db';
 export const POSContext = createContext();
 
 export const POSProvider = ({ children }) => {
+    const { token } = useContext(AuthContext);
     const { addInvoiceToState } = useContext(InvoicesContext);
     const { refreshData } = useContext(InventoryContext);
     
@@ -21,6 +23,7 @@ export const POSProvider = ({ children }) => {
     // Fetch customers on load (if needed)
     useEffect(() => {
         const fetchCustomers = async () => {
+            if (!token) return;
             try {
                 // We will create this endpoint later
                 const response = await axios.get('/customers');
@@ -30,7 +33,7 @@ export const POSProvider = ({ children }) => {
             }
         };
         fetchCustomers();
-    }, []);
+    }, [token]);
 
     // Cart Operations
     const addToCart = (product) => {
