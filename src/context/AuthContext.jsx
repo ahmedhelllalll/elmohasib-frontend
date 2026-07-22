@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Configure Axios defaults
-axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 axios.defaults.headers.common['Accept'] = 'application/json';
 
 const initialToken = localStorage.getItem('auth_token');
